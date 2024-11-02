@@ -1,7 +1,6 @@
-use ansi_to_tui::IntoText;
 use tui::{
   prelude::Rect,
-  text::Text,
+  text::{Span, Text},
   widgets::{Paragraph, Wrap},
 };
 
@@ -109,10 +108,7 @@ pub fn get_greeting_height(greeter: &Greeter, padding: u16, fallback: u16) -> (O
   if let Some(greeting) = &greeter.greeting {
     let width = greeter.width();
 
-    let text = match greeting.clone().trim().into_text() {
-      Ok(text) => text,
-      Err(_) => Text::raw(greeting),
-    };
+    let text = Span::raw(greeting);
 
     let paragraph = Paragraph::new(text.clone()).wrap(Wrap { trim: false });
     let height = paragraph.line_count(width - (2 * padding)) + 1;
